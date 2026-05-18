@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ConnectionStatus {
+  pending
+  connected
+  error
+}
+
+enum SyncStatus {
+  pending
+  success
+  error
+}
+
+enum UserRole {
+  contributor
+  manager
+  admin
+}
+
+model Organization {
+  id                String             @id @default(cuid())
+  slug              String             @unique
+  name              String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  users             AppUser[]
+  workerProfiles    WorkerProfile[]
+  sourceConnections SourceConnection[]
+  syncRuns          SyncRun[]
+  signalSnapshots   SignalSnapshot[]
+  riskReports       RiskReport[]
+  consentRecords    ConsentRecord[]
+}
+
+model AppUser {
+  id             String       @id @default(cuid())
+  organizationId String
+  clerkUserId    String?      @unique
+  email          String       @unique
+  name           String?
+  role           UserRole     @default(contributor)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model WorkerProfile {
+  id                    String           @id @default(cuid())
+  organizationId        String
+  externalId            String
+  name                  String
+  team                  String
+  role                  String
+  location              String
+  manager               String
+  timezone              String
+  prsOpenedLast14Days   Int              @default(0)
+  reviewLatencyHours    Float            @default(0)
+  afterHoursWorkPct     Float            @default(0)
+  meetingLoadHours      Float            @default(0)
+  focusHoursPerDay      Float            @default(0)
+  onCallPagesLast14Days Int              @default(0)
+  manager1to1GapDays    Int              @default(0)
+  vacationDaysNext30    Int              @default(0)
+  asyncSentimentScore   Float            @default(0)
+  note                  String           @default("")
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  organization          Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  signalSnapshots       SignalSnapshot[]
+  reportItems           ReportItem[]
+
+  @@unique([organizationId, externalId])
+}
+
+model SourceConnection {
+  id             String           @id @default(cuid())
+  organizationId String
+  provider       String
+  externalId     String?
+  status         ConnectionStatus @default(pending)
+  configJson     Json?
+  lastSyncedAt   DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  syncRuns       SyncRun[]
+
+  @@unique([organizationId, provider])
+}
+
+model SyncRun {
+  id                 String            @id @default(cuid())
+  organizationId     String
+  sourceConnectionId String?
+  provider           String
+  status             SyncStatus        @default(pending)
+  recordsIngested    Int               @default(0)
+  detailsJson        Json?
+  startedAt          DateTime          @default(now())
+  completedAt        DateTime?
+  organization       Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  sourceConnection   SourceConnection? @relation(fields: [sourceConnectionId], references: [id], onDelete: SetNull)
+}
+
+model SignalSnapshot {
+  id                    String        @id @default(cuid())
+  organizationId        String
+  workerProfileId       String
+  provider              String
+  capturedAt            DateTime      @default(now())
+  prsOpenedLast14Days   Int           @default(0)
+  reviewLatencyHours    Float         @default(0)
+  afterHoursWorkPct     Float         @default(0)
+  meetingLoadHours      Float         @default(0)
+  focusHoursPerDay      Float         @default(0)
+  onCallPagesLast14Days Int           @default(0)
+  manager1to1GapDays    Int           @default(0)
+  vacationDaysNext30    Int           @default(0)
+  asyncSentimentScore   Float         @default(0)
+  note                  String        @default("")
+  rawJson               Json?
+  organization          Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  workerProfile         WorkerProfile @relation(fields: [workerProfileId], references: [id], onDelete: Cascade)
+}
+
+model RiskReport {
+  id                 String               @id @default(cuid())
+  organizationId     String
+  generatedAt        DateTime             @default(now())
+  mode               String
+  prompt             String
+  orgSummary         String
+  teamSummary        String
+  readinessScore     Int
+  readinessSummary   String
+  connectedSources   Json
+  anomaliesJson      Json
+  forecastJson       Json
+  teamMetricsJson    Json
+  auditTrailJson     Json
+  itemCount          Int                  @default(0)
+  organization       Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  reportItems        ReportItem[]
+  managerBriefs      ManagerBriefRecord[]
+  interventions      Intervention[]
+  auditEvents        PersistedAuditEvent[]
+}
+
+model ReportItem {
+  id              String        @id @default(cuid())
+  riskReportId    String
+  workerProfileId String?
+  workerName      String
+  team            String
+  manager         String
+  riskLevel       String
+  riskScore       Int
+  factorsJson     Json
+  recommendation  String
+  riskReport      RiskReport    @relation(fields: [riskReportId], references: [id], onDelete: Cascade)
+  workerProfile   WorkerProfile? @relation(fields: [workerProfileId], references: [id], onDelete: SetNull)
+}
+
+model ManagerBriefRecord {
+  id                String     @id @default(cuid())
+  riskReportId      String
+  manager           String
+  summary           String
+  priorityWorkersJson Json
+  riskReport        RiskReport @relation(fields: [riskReportId], references: [id], onDelete: Cascade)
+}
+
+model Intervention {
+  id          String     @id @default(cuid())
+  riskReportId String
+  summary     String
+  kind        String     @default("recommendation")
+  riskReport  RiskReport @relation(fields: [riskReportId], references: [id], onDelete: Cascade)
+}
+
+model PersistedAuditEvent {
+  id          String     @id @default(cuid())
+  riskReportId String
+  stage       String
+  message     String
+  createdAt   DateTime   @default(now())
+  riskReport  RiskReport @relation(fields: [riskReportId], references: [id], onDelete: Cascade)
+}
+
+model ConsentRecord {
+  id             String       @id @default(cuid())
+  organizationId String
+  subjectEmail   String
+  scope          String
+  granted        Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}

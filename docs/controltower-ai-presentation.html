@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ControlTower AI Presentation</title>
+        <style>
+            :root {
+                --bg: #edf3fb;
+                --ink: #102033;
+                --muted: #5f7186;
+                --line: #d6e0eb;
+                --brand: #1248e8;
+                --brand-2: #17a39d;
+                --soft: #f8fbff;
+                --accent: #dff7ef;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family: "Avenir Next", "Segoe UI", sans-serif;
+                color: var(--ink);
+                background:
+                    radial-gradient(
+                        circle at top left,
+                        rgba(23, 163, 157, 0.15),
+                        transparent 22%
+                    ),
+                    linear-gradient(180deg, #f9fbff 0%, var(--bg) 100%);
+            }
+
+            .page {
+                width: 210mm;
+                min-height: 297mm;
+                margin: 0 auto;
+                padding: 12mm 12mm 10mm;
+                display: flex;
+                flex-direction: column;
+                gap: 6mm;
+                page-break-after: always;
+            }
+
+            .page:last-child {
+                page-break-after: auto;
+            }
+
+            .hero,
+            .panel,
+            .metric,
+            .card {
+                background: rgba(255, 255, 255, 0.92);
+                border: 1px solid var(--line);
+                border-radius: 7mm;
+            }
+
+            .hero {
+                padding: 7mm;
+            }
+
+            .eyebrow {
+                display: inline-block;
+                padding: 2mm 4mm;
+                border-radius: 99px;
+                font-size: 10pt;
+                font-weight: 700;
+                color: var(--brand);
+                background: #e8f0ff;
+            }
+
+            h1,
+            h2,
+            h3 {
+                margin: 0;
+                font-family:
+                    "Arial Narrow", "Avenir Next Condensed", sans-serif;
+                line-height: 1;
+            }
+
+            h1 {
+                margin-top: 3mm;
+                font-size: 24pt;
+                letter-spacing: -0.03em;
+            }
+
+            h2 {
+                font-size: 16pt;
+                letter-spacing: -0.02em;
+            }
+
+            h3 {
+                font-size: 12pt;
+            }
+
+            p {
+                margin: 0;
+                line-height: 1.35;
+                font-size: 10pt;
+            }
+
+            .muted {
+                color: var(--muted);
+            }
+
+            .grid-3 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 4mm;
+            }
+
+            .grid-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4mm;
+            }
+
+            .metric {
+                padding: 4.5mm;
+            }
+
+            .metric strong {
+                display: block;
+                font-size: 20pt;
+                margin-bottom: 1.5mm;
+            }
+
+            .panel,
+            .card {
+                padding: 4.5mm;
+            }
+
+            .list {
+                margin: 0;
+                padding-left: 4mm;
+                display: grid;
+                gap: 1.4mm;
+                font-size: 9.8pt;
+            }
+
+            .tag-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2.5mm;
+            }
+
+            .tag {
+                border-radius: 99px;
+                padding: 1.8mm 3.2mm;
+                font-size: 9.5pt;
+                font-weight: 700;
+                background: var(--accent);
+                color: #1d5f54;
+            }
+
+            .star {
+                display: grid;
+                grid-template-columns: 15mm 1fr;
+                gap: 3mm;
+                align-items: start;
+            }
+
+            .star-label {
+                border-radius: 99px;
+                text-align: center;
+                padding: 1.6mm 0;
+                font-size: 10pt;
+                font-weight: 800;
+                background: #ecf2ff;
+                color: var(--brand);
+            }
+
+            .footer {
+                margin-top: auto;
+                display: flex;
+                justify-content: space-between;
+                font-size: 9.5pt;
+                color: var(--muted);
+            }
+
+            a {
+                color: var(--brand);
+                text-decoration: none;
+            }
+
+            .quote {
+                padding: 4mm;
+                border-radius: 5mm;
+                background: var(--soft);
+                border: 1px solid var(--line);
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="page">
+            <div class="hero">
+                <h1>ControlTower AI</h1>
+                <p style="margin-top: 3mm">
+                    An enterprise engineering operations command center that
+                    turns GitHub activity and operational signals into release
+                    decisions, blocker triage, action briefs, and delivery-ready
+                    communications.
+                </p>
+                <div class="tag-row" style="margin-top: 4mm">
+                    <span class="tag">Release Readiness</span>
+                    <span class="tag">Merge Analytics</span>
+                    <span class="tag">Explainable Scoring</span>
+                    <span class="tag">Gemini-Enhanced Summaries</span>
+                    <span class="tag">Slack & Telegram Delivery</span>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="metric">
+                    <strong>4</strong>
+                    <p class="muted">
+                        Primary panels: release risk, incident hotspots, blocked
+                        work, and action brief.
+                    </p>
+                </div>
+                <div class="metric">
+                    <strong>3</strong>
+                    <p class="muted">
+                        Operational outcomes: decision support, escalation
+                        drafting, and audit-ready summaries.
+                    </p>
+                </div>
+                <div class="metric">
+                    <strong>2</strong>
+                    <p class="muted">
+                        Decision layers: deterministic heuristics for trust plus
+                        Gemini for executive language.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel">
+                    <h2>Problem</h2>
+                    <ul class="list" style="margin-top: 4mm">
+                        <li>
+                            Release readiness is still judged manually across PR
+                            queues, issue backlog, and scattered tools.
+                        </li>
+                        <li>
+                            Merge throughput and blocker pressure are hard to
+                            convert into a clear go/no-go decision.
+                        </li>
+                        <li>
+                            Operational updates and escalation messages are
+                            repeatedly written by hand.
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <h2>Solution</h2>
+                    <ul class="list" style="margin-top: 4mm">
+                        <li>
+                            Ingest live GitHub repo signals into one
+                            operations-ready dataset.
+                        </li>
+                        <li>
+                            Score release risk, merge pressure, and blocker
+                            queues with explainable heuristics.
+                        </li>
+                        <li>
+                            Generate shareable outputs for Slack and Telegram
+                            from the same run.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Current Product Highlights</h2>
+                <div class="grid-2" style="margin-top: 4mm">
+                    <ul class="list">
+                        <li>
+                            Live GitHub sync with open PR, merged PR, open
+                            issue, and closed issue totals.
+                        </li>
+                        <li>
+                            Merge analytics: 7d / 30d merged PRs and average
+                            review-to-merge time.
+                        </li>
+                        <li>
+                            Top 10 ranked views for merged PRs, oldest open PRs,
+                            and issue backlog.
+                        </li>
+                    </ul>
+                    <ul class="list">
+                        <li>
+                            Release decision banner with high-risk slice
+                            detection and owner guidance.
+                        </li>
+                        <li>
+                            Selectable shareable content: repo intelligence,
+                            action brief, risk detail, release brief.
+                        </li>
+                        <li>
+                            Slack and Telegram delivery for selected operational
+                            content.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer">
+                <span>Project: ControlTower AI</span>
+                <span>Page 1 of 2</span>
+            </div>
+        </section>
+
+        <section class="page">
+            <div class="panel">
+                <div class="star" style="margin-top: 3mm">
+                    <div class="star-label">S</div>
+                    <div>
+                        <p><strong>Situation</strong></p>
+                        <p class="muted">
+                            Engineering teams face growing release complexity,
+                            rising review latency, and fragmented visibility
+                            across GitHub and operations workflows.
+                        </p>
+                    </div>
+                </div>
+                <div class="star" style="margin-top: 2.5mm">
+                    <div class="star-label">T</div>
+                    <div>
+                        <p><strong>Task</strong></p>
+                        <p class="muted">
+                            Build a practical intelligent enterprise solution
+                            that turns engineering signals into trustworthy
+                            release guidance and communication-ready outputs.
+                        </p>
+                    </div>
+                </div>
+                <div class="star" style="margin-top: 2.5mm">
+                    <div class="star-label">A</div>
+                    <div>
+                        <p><strong>Action</strong></p>
+                        <p class="muted">
+                            Built a Next.js command center with GitHub-derived
+                            operational slices, deterministic scoring, Gemini
+                            refinement, merge analytics, ranked repo views, and
+                            direct delivery to Slack and Telegram.
+                        </p>
+                    </div>
+                </div>
+                <div class="star" style="margin-top: 2.5mm">
+                    <div class="star-label">R</div>
+                    <div>
+                        <p><strong>Result</strong></p>
+                        <p class="muted">
+                            ControlTower AI compresses manual release triage
+                            into one workflow: sync a repo, understand risk,
+                            review evidence, generate an action brief, and share
+                            the right message immediately.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h2>Why It Matters</h2>
+                    <ul class="list" style="margin-top: 4mm">
+                        <li>
+                            Moves from dashboarding to operational decision
+                            support.
+                        </li>
+                        <li>
+                            Creates trust with explainable heuristics before
+                            applying AI language generation.
+                        </li>
+                        <li>
+                            Bridges analysis and action with direct, shareable
+                            outputs.
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2>Next Step</h2>
+                    <ul class="list" style="margin-top: 4mm">
+                        <li>
+                            Expand from GitHub into Slack, Jira, PagerDuty, and
+                            deploy systems.
+                        </li>
+                        <li>
+                            Add historical benchmarks for merge velocity and
+                            blocker recurrence.
+                        </li>
+                        <li>
+                            Strengthen enterprise auth for private repo
+                            analysis.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote">
+                <h3>Developer</h3>
+                <p style="margin-top: 2mm">
+                    <strong>Daniel Mwihoti</strong> — Software Engineer
+                </p>
+                <p class="muted" style="margin-top: 2mm">
+                    LinkedIn:
+                    <a
+                        href="https://www.linkedin.com/in/daniel-mwihoti-3aaa652b9/"
+                        >linkedin.com/in/daniel-mwihoti-3aaa652b9</a
+                    >
+                </p>
+                <p class="muted" style="margin-top: 1.5mm">
+                    GitHub:
+                    <a href="https://github.com/controlai"
+                        >github.com/controlai</a
+                    >
+                </p>
+            </div>
+
+            <div class="panel">
+                <h2>Closing Statement</h2>
+                <p class="muted" style="margin-top: 4mm">
+                    ControlTower AI demonstrates how enterprise AI can move
+                    beyond passive analytics and into daily engineering
+                    operations: faster release decisions, better visibility into
+                    merge and backlog pressure, and immediate distribution of
+                    the right message to the right channel.
+                </p>
+            </div>
+
+            <div class="footer">
+                <span>Prepared by Daniel Mwihoti</span>
+                <span>Page 2 of 2</span>
+            </div>
+        </section>
+    </body>
+</html>
