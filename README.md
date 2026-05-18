@@ -85,15 +85,7 @@ npm run db:push
 - `POST /api/integrations/telegram/dm` sends the escalation pack to a Telegram chat
 - `GET /api/dashboard/summary` hydrates the dashboard
 - `POST /api/jobs/daily-sync` is the daily sync placeholder
-- `GET /api/readiness` checks environment readiness
-
-## Hackathon note
-
-This build is optimized for a strong demo in limited time. The fastest live demo path is:
-
-1. Use the bundled mock dataset or upload CSV.
-2. Generate the ops brief.
-3. Click a flagged item to show explanation, owner, Slack draft, and incident summary.
+- `GET /api/readiness` checks environment readinessnt summary.
 4. Optionally trigger GitHub or Slack webhook samples for extra realism.
 
 ## GitHub auth
